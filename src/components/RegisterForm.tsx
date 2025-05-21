@@ -7,11 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [userType, setUserType] = useState("restaurant");
+  const [isLoading, setIsLoading] = useState(false);
   
   const [formData, setFormData] = useState({
     name: "",
@@ -29,7 +31,7 @@ const RegisterForm = () => {
     });
   };
   
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -50,15 +52,95 @@ const RegisterForm = () => {
       });
       return;
     }
+
+    setIsLoading(true);
     
-    // In a real app, you would handle registration here
-    toast({
-      title: "Registration Successful",
-      description: `Welcome to FoodieSync! Your ${userType} account has been created.`,
-    });
-    
-    // Redirect to login
-    navigate("/login");
+    try {
+      // Insert data into the appropriate table based on user type
+      let insertResult;
+
+      switch (userType) {
+        case "restaurant":
+          insertResult = await supabase
+            .from("Restaurants_Details")
+            .insert({
+              Restaurant_Name: formData.name,
+              Email: formData.email,
+              Password: formData.password, // Note: In a production app, you should use Auth for handling passwords
+              Phone_Number: formData.phone ? parseInt(formData.phone) : null,
+              Address: formData.address
+            });
+          break;
+        
+        case "user":
+          insertResult = await supabase
+            .from("User_Details")
+            .insert({
+              Name: formData.name,
+              Email: formData.email,
+              Password: formData.password,
+              Phone_Number: formData.phone
+            });
+          break;
+        
+        case "ngo":
+          insertResult = await supabase
+            .from("Ngo's")
+            .insert({
+              Name: formData.name,
+              Email: formData.email,
+              Password: formData.password,
+              Phone_Number: formData.phone ? parseInt(formData.phone) : null,
+              Address: formData.address
+            });
+          break;
+        
+        case "packing":
+          insertResult = await supabase
+            .from("Packing_Companies")
+            .insert({
+              Name: formData.name,
+              Email: formData.email,
+              Password: formData.password,
+              Phone_Number: formData.phone ? parseInt(formData.phone) : null,
+              Address: formData.address
+            });
+          break;
+        
+        case "admin":
+          insertResult = await supabase
+            .from("Admin")
+            .insert({
+              Username: formData.name,
+              Email: formData.email,
+              Password: formData.password,
+              Phone_number: formData.phone ? parseInt(formData.phone) : null
+            });
+          break;
+      }
+
+      if (insertResult?.error) {
+        throw insertResult.error;
+      }
+
+      toast({
+        title: "Registration Successful",
+        description: `Your ${userType} account has been created!`,
+      });
+      
+      // Redirect to login page after successful registration
+      navigate("/login");
+      
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      toast({
+        title: "Registration Failed",
+        description: error.message || "An error occurred during registration",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return (
@@ -91,6 +173,7 @@ const RegisterForm = () => {
                       {type === "restaurant" ? "Restaurant Name" : 
                        type === "ngo" ? "NGO Name" :
                        type === "packing" ? "Company Name" :
+                       type === "admin" ? "Username" :
                        "Full Name"}
                     </Label>
                     <Input 
@@ -99,6 +182,7 @@ const RegisterForm = () => {
                       placeholder={type === "restaurant" ? "Your Restaurant Name" : 
                                    type === "ngo" ? "Your NGO Name" :
                                    type === "packing" ? "Your Company Name" :
+                                   type === "admin" ? "Admin Username" :
                                    "Your Full Name"} 
                       value={formData.name}
                       onChange={handleChange}
@@ -177,8 +261,9 @@ const RegisterForm = () => {
                   <Button 
                     type="submit" 
                     className="w-full bg-foodie-green hover:bg-foodie-green-dark"
+                    disabled={isLoading}
                   >
-                    Register
+                    {isLoading ? "Registering..." : "Register"}
                   </Button>
                 </form>
               </CardContent>

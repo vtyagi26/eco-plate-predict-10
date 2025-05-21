@@ -7,15 +7,17 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [userType, setUserType] = useState("restaurant");
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -28,23 +30,97 @@ const LoginForm = () => {
       return;
     }
     
-    // In a real app, you would handle authentication here
-    toast({
-      title: "Login Successful",
-      description: `Welcome back to FoodieSync as a ${userType}!`,
-    });
+    setIsLoading(true);
     
-    // Redirect based on user type
-    if (userType === "restaurant") {
-      navigate("/restaurant-dashboard");
-    } else if (userType === "user") {
-      navigate("/user-dashboard");
-    } else if (userType === "ngo") {
-      navigate("/ngo-dashboard");
-    } else if (userType === "packing") {
-      navigate("/packing-dashboard");
-    } else {
-      navigate("/admin-dashboard");
+    try {
+      // Query the appropriate table based on user type
+      let result;
+      
+      switch (userType) {
+        case "restaurant":
+          result = await supabase
+            .from("Restaurants_Details")
+            .select()
+            .eq("Email", email)
+            .eq("Password", password)
+            .single();
+          break;
+        
+        case "user":
+          result = await supabase
+            .from("User_Details")
+            .select()
+            .eq("Email", email)
+            .eq("Password", password)
+            .single();
+          break;
+        
+        case "ngo":
+          result = await supabase
+            .from("Ngo's")
+            .select()
+            .eq("Email", email)
+            .eq("Password", password)
+            .single();
+          break;
+        
+        case "packing":
+          result = await supabase
+            .from("Packing_Companies")
+            .select()
+            .eq("Email", email)
+            .eq("Password", password)
+            .single();
+          break;
+        
+        case "admin":
+          result = await supabase
+            .from("Admin")
+            .select()
+            .eq("Email", email)
+            .eq("Password", password)
+            .single();
+          break;
+      }
+      
+      if (result.error) {
+        throw result.error;
+      }
+      
+      if (!result.data) {
+        throw new Error("Invalid email or password");
+      }
+      
+      toast({
+        title: "Login Successful",
+        description: `Welcome back to FoodieSync as a ${userType}!`,
+      });
+      
+      // Store user info in localStorage for persistence
+      localStorage.setItem("foodieSync_userType", userType);
+      localStorage.setItem("foodieSync_userData", JSON.stringify(result.data));
+      
+      // Redirect based on user type
+      if (userType === "restaurant") {
+        navigate("/restaurant-dashboard");
+      } else if (userType === "user") {
+        navigate("/user-dashboard");
+      } else if (userType === "ngo") {
+        navigate("/ngo-dashboard");
+      } else if (userType === "packing") {
+        navigate("/packing-dashboard");
+      } else {
+        navigate("/admin-dashboard");
+      }
+    } catch (error: any) {
+      console.error("Login error:", error);
+      toast({
+        title: "Login Failed",
+        description: error.message || "Invalid email or password",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
   
@@ -105,8 +181,9 @@ const LoginForm = () => {
                   <Button 
                     type="submit" 
                     className="w-full bg-foodie-green hover:bg-foodie-green-dark"
+                    disabled={isLoading}
                   >
-                    Login
+                    {isLoading ? "Logging in..." : "Login"}
                   </Button>
                 </form>
               </CardContent>
