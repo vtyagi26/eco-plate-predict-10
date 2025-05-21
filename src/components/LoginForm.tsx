@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -35,56 +34,36 @@ const LoginForm = () => {
     try {
       // Query the appropriate table based on user type
       let result;
+      let tableName;
       
       switch (userType) {
         case "restaurant":
-          result = await supabase
-            .from("Restaurants_Details")
-            .select()
-            .eq("Email", email)
-            .eq("Password", password)
-            .single();
+          tableName = "Restaurants_Details";
           break;
-        
         case "user":
-          result = await supabase
-            .from("User_Details")
-            .select()
-            .eq("Email", email)
-            .eq("Password", password)
-            .single();
+          tableName = "User_Details";
           break;
-        
         case "ngo":
-          result = await supabase
-            .from("Ngo's")
-            .select()
-            .eq("Email", email)
-            .eq("Password", password)
-            .single();
+          tableName = "Ngo's";
           break;
-        
         case "packing":
-          result = await supabase
-            .from("Packing_Companies")
-            .select()
-            .eq("Email", email)
-            .eq("Password", password)
-            .single();
+          tableName = "Packing_Companies";
           break;
-        
         case "admin":
-          result = await supabase
-            .from("Admin")
-            .select()
-            .eq("Email", email)
-            .eq("Password", password)
-            .single();
+          tableName = "Admin";
           break;
       }
       
+      result = await supabase
+        .from(tableName)
+        .select()
+        .eq("Email", email)
+        .eq("Password", password)
+        .single();
+      
       if (result.error) {
-        throw result.error;
+        console.error("Login error:", result.error);
+        throw new Error("Invalid email or password");
       }
       
       if (!result.data) {

@@ -58,68 +58,69 @@ const RegisterForm = () => {
     try {
       // Insert data into the appropriate table based on user type
       let insertResult;
+      let tableName;
+      let insertData: any = {};
 
       switch (userType) {
         case "restaurant":
-          insertResult = await supabase
-            .from("Restaurants_Details")
-            .insert({
-              Restaurant_Name: formData.name,
-              Email: formData.email,
-              Password: formData.password, // Note: In a production app, you should use Auth for handling passwords
-              Phone_Number: formData.phone ? parseInt(formData.phone) : null,
-              Address: formData.address
-            });
+          tableName = "Restaurants_Details";
+          insertData = {
+            Restaurant_Name: formData.name,
+            Email: formData.email,
+            Password: formData.password,
+            Phone_Number: formData.phone ? parseInt(formData.phone) : 0, // Default to 0 as it's required
+            Address: formData.address
+          };
           break;
         
         case "user":
-          insertResult = await supabase
-            .from("User_Details")
-            .insert({
-              Name: formData.name,
-              Email: formData.email,
-              Password: formData.password,
-              Phone_Number: formData.phone
-            });
+          tableName = "User_Details";
+          insertData = {
+            Name: formData.name,
+            Email: formData.email,
+            Password: formData.password,
+            Phone_Number: formData.phone
+          };
           break;
         
         case "ngo":
-          insertResult = await supabase
-            .from("Ngo's")
-            .insert({
-              Name: formData.name,
-              Email: formData.email,
-              Password: formData.password,
-              Phone_Number: formData.phone ? parseInt(formData.phone) : null,
-              Address: formData.address
-            });
+          tableName = "Ngo's";
+          insertData = {
+            Name: formData.name,
+            Email: formData.email,
+            Password: formData.password,
+            Phone_Number: formData.phone ? parseInt(formData.phone) : null,
+            Address: formData.address
+          };
           break;
         
         case "packing":
-          insertResult = await supabase
-            .from("Packing_Companies")
-            .insert({
-              Name: formData.name,
-              Email: formData.email,
-              Password: formData.password,
-              Phone_Number: formData.phone ? parseInt(formData.phone) : null,
-              Address: formData.address
-            });
+          tableName = "Packing_Companies";
+          insertData = {
+            Name: formData.name,
+            Email: formData.email,
+            Password: formData.password,
+            Phone_Number: formData.phone ? parseInt(formData.phone) : null,
+            Address: formData.address
+          };
           break;
         
         case "admin":
-          insertResult = await supabase
-            .from("Admin")
-            .insert({
-              Username: formData.name,
-              Email: formData.email,
-              Password: formData.password,
-              Phone_number: formData.phone ? parseInt(formData.phone) : null
-            });
+          tableName = "Admin";
+          insertData = {
+            Username: formData.name,
+            Email: formData.email,
+            Password: formData.password,
+            Phone_number: formData.phone ? parseInt(formData.phone) : null
+          };
           break;
       }
 
-      if (insertResult?.error) {
+      insertResult = await supabase
+        .from(tableName)
+        .insert(insertData);
+
+      if (insertResult.error) {
         throw insertResult.error;
       }
 
