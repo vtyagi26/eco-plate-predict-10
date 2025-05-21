@@ -14,6 +14,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 
+// Add these additional route components for NGO and Packing company registration
+import NGORegister from "./pages/NGORegister";
+import PackingRegister from "./pages/PackingRegister";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -30,6 +34,8 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/ngo-register" element={<NGORegister />} />
+          <Route path="/packing-register" element={<PackingRegister />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -74,24 +74,32 @@ const RegisterForm = () => {
         </CardHeader>
         
         <Tabs defaultValue="restaurant" onValueChange={setUserType} className="w-full">
-          <TabsList className="grid grid-cols-3 mb-4">
+          <TabsList className="grid grid-cols-5 mb-4">
             <TabsTrigger value="restaurant">Restaurant</TabsTrigger>
             <TabsTrigger value="user">User</TabsTrigger>
+            <TabsTrigger value="ngo">NGO</TabsTrigger>
+            <TabsTrigger value="packing">Packing</TabsTrigger>
             <TabsTrigger value="admin">Admin</TabsTrigger>
           </TabsList>
           
-          {["restaurant", "user", "admin"].map((type) => (
+          {["restaurant", "user", "ngo", "packing", "admin"].map((type) => (
             <TabsContent key={type} value={type}>
               <CardContent>
                 <form onSubmit={handleRegister} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor={`${type}-name`}>
-                      {type === "restaurant" ? "Restaurant Name" : "Full Name"}
+                      {type === "restaurant" ? "Restaurant Name" : 
+                       type === "ngo" ? "NGO Name" :
+                       type === "packing" ? "Company Name" :
+                       "Full Name"}
                     </Label>
                     <Input 
                       id={`${type}-name`} 
                       name="name"
-                      placeholder={type === "restaurant" ? "Your Restaurant Name" : "Your Full Name"} 
+                      placeholder={type === "restaurant" ? "Your Restaurant Name" : 
+                                   type === "ngo" ? "Your NGO Name" :
+                                   type === "packing" ? "Your Company Name" :
+                                   "Your Full Name"} 
                       value={formData.name}
                       onChange={handleChange}
                       required
@@ -123,13 +131,17 @@ const RegisterForm = () => {
                     />
                   </div>
                   
-                  {type === "restaurant" && (
+                  {(type === "restaurant" || type === "ngo" || type === "packing") && (
                     <div className="space-y-2">
-                      <Label htmlFor="restaurant-address">Restaurant Address</Label>
+                      <Label htmlFor={`${type}-address`}>
+                        {type === "restaurant" ? "Restaurant Address" : 
+                         type === "ngo" ? "NGO Address" : 
+                         "Company Address"}
+                      </Label>
                       <Input 
-                        id="restaurant-address" 
+                        id={`${type}-address`} 
                         name="address"
-                        placeholder="123 Food Street, City" 
+                        placeholder="123 Main Street, City" 
                         value={formData.address}
                         onChange={handleChange}
                       />

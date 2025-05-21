@@ -39,6 +39,10 @@ const LoginForm = () => {
       navigate("/restaurant-dashboard");
     } else if (userType === "user") {
       navigate("/user-dashboard");
+    } else if (userType === "ngo") {
+      navigate("/ngo-dashboard");
+    } else if (userType === "packing") {
+      navigate("/packing-dashboard");
     } else {
       navigate("/admin-dashboard");
     }
@@ -57,13 +61,15 @@ const LoginForm = () => {
         </CardHeader>
         
         <Tabs defaultValue="restaurant" onValueChange={setUserType} className="w-full">
-          <TabsList className="grid grid-cols-3 mb-4">
+          <TabsList className="grid grid-cols-5 mb-4">
             <TabsTrigger value="restaurant">Restaurant</TabsTrigger>
             <TabsTrigger value="user">User</TabsTrigger>
+            <TabsTrigger value="ngo">NGO</TabsTrigger>
+            <TabsTrigger value="packing">Packing</TabsTrigger>
             <TabsTrigger value="admin">Admin</TabsTrigger>
           </TabsList>
           
-          {["restaurant", "user", "admin"].map((type) => (
+          {["restaurant", "user", "ngo", "packing", "admin"].map((type) => (
             <TabsContent key={type} value={type}>
               <CardContent>
                 <form onSubmit={handleLogin} className="space-y-4">

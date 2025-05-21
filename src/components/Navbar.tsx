@@ -32,7 +32,7 @@ const Navbar = () => {
 
         {/* Login/Register Buttons for Desktop */}
         <div className="hidden md:flex items-center gap-2">
-          <Button asChild variant="outline" className="text-white border-white hover:bg-foodie-green hover:text-white">
+          <Button asChild variant="outline" className="text-white border-white hover:bg-foodie-green hover:border-white">
             <Link to="/login">Login</Link>
           </Button>
           <Button asChild className="bg-foodie-yellow hover:bg-foodie-yellow-dark text-foodie-green-dark">
@@ -57,7 +57,7 @@ const Navbar = () => {
             <Link to="/contact" className="hover:text-foodie-yellow transition-colors">Contact Us</Link>
             
             <div className="flex gap-2 pt-4">
-              <Button asChild variant="outline" className="text-white border-white hover:bg-foodie-green hover:text-white">
+              <Button asChild variant="outline" className="text-white border-white hover:bg-foodie-green hover:border-white">
                 <Link to="/login">Login</Link>
               </Button>
               <Button asChild className="bg-foodie-yellow hover:bg-foodie-yellow-dark text-foodie-green-dark">
