@@ -1,1 +1,5 @@
+
 project_id = "prexhyxfznksxvvjzzsh"
+
+[functions.foodiesync-chatbot]
+verify_jwt = false
