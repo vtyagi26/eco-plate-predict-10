@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,7 +9,6 @@ import FoodWastageModel from "@/components/restaurant/FoodWastageModel";
 import FoodPrepModel from "@/components/restaurant/FoodPrepModel";
 import PackagingModel from "@/components/restaurant/PackagingModel";
 import RestaurantSidebar from "@/components/restaurant/RestaurantSidebar";
-import FoodieSyncChatbot from "@/components/restaurant/FoodieSyncChatbot";
 
 const RestaurantDashboard = () => {
   const navigate = useNavigate();
@@ -62,7 +62,6 @@ const RestaurantDashboard = () => {
             <TabsTrigger value="wastage">Food Wastage Model</TabsTrigger>
             <TabsTrigger value="prep">Food Preparation Model</TabsTrigger>
             <TabsTrigger value="packaging">Sustainable Packaging</TabsTrigger>
-            <TabsTrigger value="chatbot">AI Assistant</TabsTrigger>
           </TabsList>
           
           <TabsContent value="menu">
@@ -95,10 +94,6 @@ const RestaurantDashboard = () => {
                 <PackagingModel restaurantId={restaurantData.id} />
               </CardContent>
             </Card>
-          </TabsContent>
-          
-          <TabsContent value="chatbot">
-            <FoodieSyncChatbot />
           </TabsContent>
         </Tabs>
       </div>
