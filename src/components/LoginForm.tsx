@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -57,8 +58,8 @@ const LoginForm = () => {
       result = await supabase
         .from(tableName)
         .select()
-        .eq("Email", email)
-        .eq("Password", password)
+        .eq("email", email)
+        .eq("password", password)
         .single();
       
       if (result.error) {
