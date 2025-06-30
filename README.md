@@ -31,12 +31,5 @@ Each year, tons of edible food go to waste while millions remain undernourished.
 
 ---
 
-## 📦 Getting Started (Frontend)
-
-> Make sure [Node.js](https://nodejs.org/) is installed.
-
-```bash
-git clone https://github.com/vtyagi26/foodisync.git
-cd foodlink
-npm install
-npm run dev
+Visit the deployed site!
+https://eco-plate-predict-10-p32b8dqw7-vtyagi26s-projects.vercel.app/
