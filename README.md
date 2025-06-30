@@ -1,73 +1,42 @@
-# Welcome to your Lovable project
+# ♻️ FoodiSync — Connecting NGOs, Food Banks & Restaurants to Reduce Waste
 
-## Project info
+A web-based platform that connects NGOs and food banks with restaurants and party halls to **minimize food waste** using predictive **machine learning models**. Designed to foster real-time coordination and smart surplus food distribution.
 
-**URL**: https://lovable.dev/projects/6318b9ef-e076-4e6a-839b-f31bdbc42ba5
+---
 
-## How can I edit this code?
+## 🌍 Problem Statement
 
-There are several ways of editing your application.
+Each year, tons of edible food go to waste while millions remain undernourished. **FoodiSync** aims to bridge this gap by enabling food donors (restaurants, events, individuals) to connect with nearby NGOs and food banks — powered by demand prediction models to avoid mismatches and delays.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6318b9ef-e076-4e6a-839b-f31bdbc42ba5) and start prompting.
+## 🔧 Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React.js, TypeScript, Tailwind CSS, shadcn/ui, Vite
+- **Backend**: FastAPI (or your backend stack — update if needed)
+- **ML Models**: Trained with Python (Scikit-learn, Pandas, RandomForest)
+- **Database**: MongoDB / PostgreSQL *(based on your actual setup)*
+- **Hosting**: Vercel / Netlify for frontend, Render / Railway / AWS for backend *(customizable)*
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## ✨ Key Features
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- 📍 **Real-Time Geo Matching** of food donors and NGOs
+- 🤖 **ML-Based Demand Prediction** to optimize food pickup routing and quantity planning
+- 📅 **Event Scheduling** for food donations
+- 🔔 **Smart Notifications** for new food availability
+- 📊 **Analytics Dashboard** for NGO admins and donors
+- 🔐 **Role-Based Authentication** (Donor / NGO / Admin)
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 📦 Getting Started (Frontend)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+> Make sure [Node.js](https://nodejs.org/) is installed.
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/vtyagi26/foodisync.git
+cd foodlink
+npm install
 npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/6318b9ef-e076-4e6a-839b-f31bdbc42ba5) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
